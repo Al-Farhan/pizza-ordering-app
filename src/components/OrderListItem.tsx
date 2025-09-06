@@ -1,10 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Order } from "../types";
+import { Order, Tables } from "../types";
 import { Link, useSegments } from "expo-router";
 
 type OrderListItemProps = {
-  order: Order;
+  order: Tables<"orders">;
 };
 
 const OrderListItem = ({ order }: OrderListItemProps) => {
