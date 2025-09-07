@@ -7,16 +7,17 @@ import {
 } from "react-native";
 import React from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
-import orders from "@/assets/data/orders";
 import OrderListItem from "@/src/components/OrderListItem";
 import OrderItemListItem from "@/src/components/OrderItemListItem";
 import { useOrderDetails } from "@/src/api/orders";
+import { useUpdateOrderSubscription } from "@/src/api/orders/subscriptions";
 
 const OrderDetails = () => {
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
 
   const { data: order, isLoading, error } = useOrderDetails(id);
+  useUpdateOrderSubscription(id);
 
   if (isLoading) {
     return <ActivityIndicator />;

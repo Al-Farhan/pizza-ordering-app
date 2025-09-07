@@ -1,9 +1,9 @@
-import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 
-import { Text, View } from "@/src/components/Themed";
+import { Text } from "@/src/components/Themed";
 import OrderListItem from "@/src/components/OrderListItem";
-import { Stack } from "expo-router";
 import { useAdminOrderList } from "@/src/api/orders";
+import { useInsertOrderSubscription } from "@/src/api/orders/subscriptions";
 
 export default function OrdersScreen() {
   const {
@@ -11,6 +11,8 @@ export default function OrdersScreen() {
     error,
     isLoading,
   } = useAdminOrderList({ archived: false });
+
+  useInsertOrderSubscription();
 
   if (isLoading) {
     return <ActivityIndicator />;
