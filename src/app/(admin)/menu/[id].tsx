@@ -1,21 +1,18 @@
 import {
   ActivityIndicator,
-  Image,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
-import products from "@/assets/data/products";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
-import Button from "@/src/components/Button";
-import { useCart } from "@/src/providers/CartProvider";
 import { PizzaSize } from "@/src/types";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/src/constants/Colors";
 import { useProduct } from "@/src/api/products";
+import RemoteImage from "@/src/components/RemoteImageProps";
 
 const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 
@@ -30,7 +27,7 @@ const ProductDetailsScreen = () => {
     return <ActivityIndicator />;
   }
 
-  if (error) {
+  if (error || !product) {
     return <Text>Failed to fetch products</Text>;
   }
 
@@ -56,9 +53,11 @@ const ProductDetailsScreen = () => {
         }}
       />
       <Stack.Screen options={{ title: product.name }} />
-      <Image
+      <RemoteImage
+        path={product?.image || defaultPizzaImage}
+        fallback={defaultPizzaImage}
         style={styles.image}
-        source={{ uri: product.image || defaultPizzaImage }}
+        resizeMode="contain"
       />
 
       <Text style={styles.title}>{product.name}</Text>

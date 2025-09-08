@@ -13,6 +13,7 @@ import Button from "@/src/components/Button";
 import { useCart } from "@/src/providers/CartProvider";
 import { PizzaSize } from "@/src/types";
 import { useProduct } from "@/src/api/products";
+import RemoteImage from "@/src/components/RemoteImageProps";
 
 const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 
@@ -40,16 +41,18 @@ const ProductDetailsScreen = () => {
     return <ActivityIndicator />;
   }
 
-  if (error) {
+  if (error || !product) {
     return <Text>Failed to fetch products</Text>;
   }
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
-      <Image
+      <RemoteImage
+        path={product?.image || defaultPizzaImage}
+        fallback={defaultPizzaImage}
         style={styles.image}
-        source={{ uri: product.image || defaultPizzaImage }}
+        resizeMode="contain"
       />
 
       <Text>Select size</Text>
